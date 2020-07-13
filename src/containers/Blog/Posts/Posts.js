@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from '../../../axios';
+import { Link } from 'react-router-dom';
 import Post from '../../../components/Post/Post';
 import './Posts.css';
 
@@ -8,7 +9,10 @@ class Posts extends Component {
     posts: []
   }
 
+
+
   componentDidMount () {
+
     // const posts = axios.get('http://jsonplaceholder.typicode.com/posts'); 
     // the problem with this method is that javascript will move on immediately, will not wait to store it
     axios.get('/posts')
@@ -37,11 +41,15 @@ class Posts extends Component {
     let posts = <p style={{textAlign: 'center'}}>Something went wrong!</p>
     if (!this.state.error) {
         posts = this.state.posts.map(post => {
-            return <Post 
-                key={post.id} 
-                title={post.title} 
-                author={post.author} 
-                clicked={ () => this.postSelectedHandler(post.id)} />;
+            return (
+              <Link 
+                to={'/' + post.id}
+                key={post.id}>
+                <Post 
+                  title={post.title} 
+                  author={post.author} 
+                  clicked={ () => this.postSelectedHandler(post.id)} />
+              </Link>);
         });
     }
 
